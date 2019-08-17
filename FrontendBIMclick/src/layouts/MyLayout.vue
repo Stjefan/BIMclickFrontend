@@ -15,7 +15,7 @@
       <q-tabs align="left">
         <q-route-tab :to="{name: 'Baustoffe'}" label="Baustoffe" />
         <q-route-tab :to="{name: 'Bauprodukte'}" label="Bauprodukte" />
-        <q-route-tab to="/Bauvorschriften" label="Bauvorschriften" />
+        <q-route-tab to="/Bauvorschriftenabc" label="Bauvorschriften" />
         <q-route-tab to="/Bauvorhaben" label="Bauvorhaben" />
         <q-route-tab to="/Validierung" label="Validierung" />
         <q-route-tab to="/Optimierung" label="Optimierung" />
