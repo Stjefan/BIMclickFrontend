@@ -15,11 +15,11 @@
       <q-tabs align="left">
         <q-route-tab :to="{name: 'Baustoffe'}" label="Baustoffe" />
         <q-route-tab :to="{name: 'Bauprodukte'}" label="Bauprodukte" />
-        <q-route-tab to="/Bauvorschriften" label="Bauvorschriften" />
-        <q-route-tab to="/Bauvorhaben" label="Bauvorhaben" />
-        <q-route-tab to="/Validierung" label="Validierung" />
-        <q-route-tab to="/Optimierung" label="Optimierung" />
-        <q-route-tab to="/Datenaustausch" label="Datenaustausch" />
+        <q-route-tab :to="{name: 'Bauvorschriften'}" label="Bauvorschriften" />
+        <q-route-tab :to="{name: 'Bauvorhaben'}" label="Bauvorhaben" />
+        <q-route-tab :to="{name: 'Validierung'}" label="Validierung" />
+        <q-route-tab :to="{name: 'Optimierung'}" label="Optimierung" />
+        <q-route-tab :to="{name: 'Datenaustausch'}" label="Datenaustausch" />
       </q-tabs>
     </q-header>
 
