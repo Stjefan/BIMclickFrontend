@@ -1,7 +1,8 @@
 <template>
   <q-page padding>
     <!-- content -->
-    <div class="q-pa-md row q-col-gutter-sm">
+    <template>
+  <div class="q-pa-md row q-col-gutter-sm">
     <!------------------------------------------------------------------------------------------------------------------>
     <!-- q-splitter                                                                                                   -->
     <!------------------------------------------------------------------------------------------------------------------>
@@ -64,7 +65,7 @@
             align="justify"
             narrow-indicator
           >
-            <q-tab name="baustoffEigenschaften" label="Baustoffeigenschaften" />
+            <q-tab name="typEigenschaften" label="Typeigenschaften" />
             <q-tab name="materialEigenschaften" label="Materialeigenschaften" />
             <q-tab name="abhängigeBaustoffe" label="Abhängige Baustoffe" />
           </q-tabs>
@@ -74,7 +75,7 @@
           <q-tab-panels v-model="tab" animated>
             <!-- Es folgen die 3 q-tab-panels -->
 
-            <q-tab-panel name="baustoffEigenschaften" v-if="selectedKey">
+            <q-tab-panel name="typEigenschaften" v-if="selectedKey">
               <!------------------------------------------------------------------------------------------------------------------>
               <!-- q-form für Eigenschaften des im q-tree selektierten Baustoffs                                                -->
               <!------------------------------------------------------------------------------------------------------------------>
@@ -88,7 +89,7 @@
                 <!-- v-if="selectedKey" an q-tab-panel scheint dagegen zu funktionieren!!!                                      -->
                 <!---------------------------------------------------------------------------------------------------------------->
                 <div class="q-gutter-md" style="min-width: 1500px max-width: 1500px">
-                  <div class="text-h6">Baustoffeigenschaften</div>
+                  <div class="text-h6">Typeigenschaften</div>
                   <div>_id: {{ selectedKey }}</div>
                   <!-- Erstes q-input hat Testcode zur Nutzung von rules: -->
                   <q-input
@@ -512,11 +513,14 @@
       <!-- v-slot:after -->
     </q-splitter>
   </div>
+  <!-- </div> -->
+  <!-- v-if="selectedNode" (ALTE Version ohne q-splitter, hatte div mit v-if "außen" -->
+    </template>
   </q-page>
 </template>
 
 <script>
-/* ===================================================================================================================================================//
+/*===================================================================================================================================================//
 Vue/Quasar Komponente BaustoffTree.vue (vorläufig noch: BaustoffListe.vue)
 
 Erzeugt einen Baum von Baustoffen und erlaubt dessen Anzeige und später Manipulation
@@ -597,7 +601,7 @@ export default {
   data() {
     return {
       splitterModel: 30, // Für q-splitter
-      tab: "baustoffEigenschaften", // Für q-tabs
+      tab: "typEigenschaften", // Für q-tabs
       /*------------------------------------------------------------------------------------------------------------------//
       Daten für q-table für Kinder des ausgewählten Baustoffs
       NEU: Sichtbare Spalten werden per q-toggles gesteuert
@@ -1271,7 +1275,21 @@ export default {
           // TODO: Baustoff aus selectedNode und treeData entfernen
           // TODO: Folgende Logik überarbeiten
           //=========================================================================================================
-          this.$emit("refresh"); // ????????? Scheint zumindest nicht zu schaden...setzt aber noch nicht die Eingabefelder zurück!!!
+          this.selectedNode=null; // selectedNode zurücksetzen
+          this.treeData[this.selectedKey] = null; // Gelöschten Node in treeData entfernen
+          // TODO 1: Löscht nicht die Referenzen im Vaterknoten auf ihn!!!
+          //  Diese werden beim nächsten handleSelectedNode bzw. Lazy Load also zu holen versucht, was zu Fehlern führt!!!
+          // Man müsste dafür find mit der _id des gelöschten Knotens in den Kindern aller Väter machen, oder neues parent Feld dafür implementieren
+          // TODO 2: Löschen aller seiner kinder und Kindeskinder - in der Datenbank ist es schon implementiert
+          // Aber ist das hier in treeData überhaupt notwendig, oder kann man die einfach im Array hängen lassen bis Session Ende?
+          // Vermutlich ist es bei Delete besser, gleich den ganzen Baum neu aus der Datenbank zu laden und lazy Loads von vorne beginnen zu lassen!!!
+          // Dies kann ma ja schon simulieren, indem man den Refresh Knopf im Browser drückt, dann wird der neue Baum nach dem Löschen korrekt angezeigt
+          // TODO!!!
+          this.selectedKey=null; // selectedKey zurücksetzen
+          this.$emit("change", this.selectedNode);
+          this.$emit("change", this.selectedKey);
+          this.$emit("change", this.treeData);
+          // this.$emit("refresh"); // ????????? Scheint zumindest nicht zu schaden...setzt aber noch nicht die Eingabefelder zurück!!!
           // this.$router.push("/"); // TODO: Erst mal auskommentiert, Router-Sachen müssen überarbeitet werden
         })
         .catch(e => {

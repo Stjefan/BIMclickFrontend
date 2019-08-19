@@ -19,6 +19,10 @@ const routes = [
       { path: '/Bauvorschriften',
         redirect: '/Umbauarbeiten'
       },
+      { path: '/BauphysikalischeEigenschaften',
+        name: 'BauphysikalischeEigenschaften',
+        component: () => import('pages/BaupyhsikalischeEigenschaften.vue')
+      },
       { path: '/',
         name: 'Baustoffe',
         component: () => import('pages/Baustoffe.vue')

@@ -70,7 +70,8 @@ module.exports = function (ctx) {
         'QScrollArea',
         'QBtn',
         'QCard',
-        'QSeparator'
+        'QSeparator',
+        'QRadio'
       ],
 
       directives: [
